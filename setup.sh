@@ -22,6 +22,7 @@ if [[ ! -f "$EXTRA_FILE" ]]; then
     fi
 fi
 
+cd $HOME
 HINT=": dotfiles"
 grep "$HINT" .bashrc &>/dev/null
 
