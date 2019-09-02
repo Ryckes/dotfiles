@@ -1,15 +1,25 @@
-pushd $HOME
+cd $HOME
 
 INSTALL_DIR='~/dotfiles'
 EXTRA_FILE="$INSTALL_DIR/bash_extra"
 if [[ ! -f "$EXTRA_FILE" ]]; then
     echo "Dotfiles not found, downloading."
-    echo "ERR: Not implemented yet." >&2
-fi
 
-if [[ ! -f "$EXTRA_FILE" ]]; then
-    echo "Could not download dotfiles."
-    exit 1    
+    if [[ ! -d "$INSTALL_DIR" ]]; then
+        echo "$INSTALL_DIR not found, creating."
+        mkdir "$INSTALL_DIR"
+    fi
+
+    cd $INSTALL_DIR
+    curl -L https://github.com/Ryckes/dotfiles/tarball/master --output - 2>/dev/null \
+        | tar -xz \
+        && mv Ryckes-dotfiles-*/* . \
+        && rmdir Ryckes-dotfiles-*
+
+    if [[ ! -f "$EXTRA_FILE" ]]; then
+        echo "Could not download dotfiles."
+        exit 1
+    fi
 fi
 
 HINT=": dotfiles"
