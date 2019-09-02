@@ -27,7 +27,7 @@ grep "$HINT" .bashrc &>/dev/null
 
 if [[ $? == "0" ]]; then
     echo "Dotfiles already installed, reinstalling."
-    # TODO: fix .bashrc to update ot latest version, in case the INSTALL_COMMAND changes.
+    # TODO: fix .bashrc to update to latest version, in case the INSTALL_COMMAND changes.
 else
     echo "Setting up dotfiles for the first time."
 
