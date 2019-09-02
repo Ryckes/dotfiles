@@ -1,1 +1,1 @@
-export EXTRA_FILE="~/dotfiles/bash_extra"
+export EXTRA_FILE="$HOME/dotfiles/bash_extra"

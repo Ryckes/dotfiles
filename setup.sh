@@ -1,6 +1,6 @@
 cd $HOME
 
-INSTALL_DIR='~/dotfiles'
+INSTALL_DIR="$HOME/dotfiles"
 EXTRA_FILE="$INSTALL_DIR/bash_extra"
 if [[ ! -f "$EXTRA_FILE" ]]; then
     echo "Dotfiles not found, downloading."
@@ -10,7 +10,7 @@ if [[ ! -f "$EXTRA_FILE" ]]; then
         mkdir "$INSTALL_DIR"
     fi
 
-    cd $INSTALL_DIR
+    cd "$INSTALL_DIR"
     curl -L https://github.com/Ryckes/dotfiles/tarball/master --output - 2>/dev/null \
         | tar -xz \
         && mv Ryckes-dotfiles-*/* . \
@@ -31,7 +31,7 @@ if [[ $? == "0" ]]; then
 else
     echo "Setting up dotfiles for the first time."
 
-    INSTALL_COMMAND="\`$HINT\` && echo '. ~/dotfiles/bash_extra'"
+    INSTALL_COMMAND="\`$HINT\` && echo '. $HOME/dotfiles/bash_extra'"
     echo >> .bashrc
     echo "$INSTALL_COMMAND" >> .bashrc
 fi
