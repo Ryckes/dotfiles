@@ -24,15 +24,17 @@ fi
 
 cd $HOME
 HINT=": dotfiles"
+# Ampersands are special characters in sed.
+INSTALL_COMMAND="$HINT \&\& . \"$HOME/dotfiles/bash_extra\""
 grep "$HINT" .bashrc &>/dev/null
 
 if [[ $? == "0" ]]; then
     echo "Dotfiles already installed, reinstalling."
-    # TODO: fix .bashrc to update to latest version, in case the INSTALL_COMMAND changes.
+    SED_PATTERN="s@^.*$HINT.*\$@$INSTALL_COMMAND@"
+    sed -i "$SED_PATTERN" .bashrc
 else
     echo "Setting up dotfiles for the first time."
 
-    INSTALL_COMMAND="\`$HINT\` && echo '. $HOME/dotfiles/bash_extra'"
     echo >> .bashrc
     echo "$INSTALL_COMMAND" >> .bashrc
 fi
