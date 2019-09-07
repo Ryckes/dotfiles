@@ -1,1 +1,37 @@
 export EXTRA_FILE="$HOME/dotfiles/bash_extra"
+
+# Append to history after each command
+PROMPT_COMMAND="history -a"
+
+alias ls="ls --color=auto"
+alias la="ls -a"
+alias ll="ls -l"
+
+alias grep="grep --color"
+
+alias s="git status"
+alias a="git add"
+alias c="git commit"
+alias amend="git commit --amend --no-edit"
+alias d="git diff"
+alias l="git log"
+alias xl="git log"
+
+copy() {
+    if [[ ! -z "$@" ]]; then
+        printf "$@" | xclip -selection clipboard
+    else
+        # Take STDIN
+        xclip -selection clipboard
+    fi
+}
+
+if [[ -f "$HOME/bin/ec" ]]; then
+   export EDITOR="ec"
+fi
+
+alias rc=". $EXTRA_FILE"
+alias rcedit="$EDITOR $EXTRA_FILE &"
+
+export PATH="$PATH:$HOME/projects/go/bin:$HOME/bin"
+export PS1="[\u@\w] $ "
