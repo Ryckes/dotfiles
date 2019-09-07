@@ -22,19 +22,46 @@ if [[ ! -f "$EXTRA_FILE" ]]; then
     fi
 fi
 
+# ---------------
+# - Shell setup -
+# ---------------
 cd $HOME
 HINT=": dotfiles"
-# Ampersands are special characters in sed.
+# Ampersands are special characters in sed. They must not be escaped
+# for the first-time setup, so we add the hint and then run the sed
+# command we'll use for updating existing configs.
 INSTALL_COMMAND="$HINT \&\& . \"$HOME/dotfiles/bash_extra\""
-grep "$HINT" .bashrc &>/dev/null
 
+
+grep "$HINT" .bashrc &>/dev/null
 if [[ $? == "0" ]]; then
     echo "Dotfiles already installed, reinstalling."
-    SED_PATTERN="s@^.*$HINT.*\$@$INSTALL_COMMAND@"
-    sed -i "$SED_PATTERN" .bashrc
 else
     echo "Setting up dotfiles for the first time."
 
     echo >> .bashrc
-    echo "$INSTALL_COMMAND" >> .bashrc
+    echo "$HINT" >> .bashrc
+fi
+SED_PATTERN="s@^.*$HINT.*\$@$INSTALL_COMMAND@"
+sed -i "$SED_PATTERN" .bashrc
+
+# ---------------
+# - Emacs setup -
+# ---------------
+if [[ ! -d "$HOME/bin" ]]; then
+    echo "Creating $HOME/bin"
+    mkdir "$HOME/bin"
+fi
+
+EC_PATH="$HOME/bin/ec"
+if [[ ! -f "$EC_PATH" ]]; then
+    # If ~/bin/ec already exists, don't touch it.
+    echo "Setting up $EC_PATH"
+    cp "$INSTALL_DIR/ec" "$EC_PATH"
+    chmod +x "$EC_PATH"
+fi
+
+which emacsclient &>/dev/null
+if [[ "$?" != 0 ]]; then
+    echo "emacsclient not found in path, ec won't work."
 fi
