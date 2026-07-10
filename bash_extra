@@ -1,7 +1,7 @@
 export EXTRA_FILE="$HOME/dotfiles/bash_extra"
 
 # Append to history after each command
-PROMPT_COMMAND="history -a"
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 alias ls="ls --color=auto"
 alias la="ls -a"
@@ -16,6 +16,12 @@ alias amend="git commit --amend --no-edit"
 alias d="git diff"
 alias l="git log"
 alias xl="git log"
+alias co="git checkout"
+
+export dc="docker compose"
+export up="docker compose up"
+export upb="docker compose up --build"
+export down="docker compose down"
 
 copy() {
     if [[ ! -z "$@" ]]; then
