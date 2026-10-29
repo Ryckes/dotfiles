@@ -37,6 +37,7 @@ if [[ -f "$HOME/bin/ec" ]]; then
    export EDITOR="ec"
 fi
 
+unalias rc 2>/dev/null
 rc() {
     . $EXTRA_FILE
     if [ -f $LOCAL_EXTRA ]; then
