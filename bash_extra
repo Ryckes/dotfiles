@@ -79,4 +79,10 @@ shopt -s histappend                      # append to history, don't overwrite it
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 
+if [[ -n "$TMUX" ]]; then
+    # So Ctrl-D doesn't kill the tmux session.
+    set -o ignoreeof
+fi
+
+
 [ -r "$LOCAL_EXTRA" ] && . $LOCAL_EXTRA
