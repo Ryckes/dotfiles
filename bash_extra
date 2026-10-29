@@ -2,7 +2,7 @@ export EXTRA_FILE="$HOME/dotfiles/bash_extra"
 export LOCAL_EXTRA="$HOME/dotfiles/local_extra.sh"
 export LOCAL_EXTRA_BEFORE="$HOME/dotfiles/local_extra_before.sh"
 
-. $LOCAL_EXTRA_BEFORE
+[ -r "$LOCAL_EXTRA_BEFORE" ] && . $LOCAL_EXTRA_BEFORE
 
 # Append to history after each command
 PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -46,4 +46,4 @@ alias rcedit="$EDITOR $LOCAL_EXTRA &"
 export PATH="$PATH:$HOME/projects/go/bin:$HOME/bin"
 export PS1="[\u@\w] $ "
 
-. $LOCAL_EXTRA
+[ -r "$LOCAL_EXTRA" ] && . $LOCAL_EXTRA
