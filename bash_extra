@@ -1,4 +1,5 @@
 export EXTRA_FILE="$HOME/dotfiles/bash_extra"
+export LOCAL_EXTRA="$HOME/dotfiles/local_extra.sh"
 
 # Append to history after each command
 PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -36,8 +37,14 @@ if [[ -f "$HOME/bin/ec" ]]; then
    export EDITOR="ec"
 fi
 
-alias rc=". $EXTRA_FILE"
-alias rcedit="$EDITOR $EXTRA_FILE &"
+rc() {
+    . $EXTRA_FILE
+    if [ -f $LOCAL_EXTRA ]; then
+        . $LOCAL_EXTRA
+    fi
+}
+
+alias rcedit="$EDITOR $LOCAL_EXTRA &"
 
 export PATH="$PATH:$HOME/projects/go/bin:$HOME/bin"
 export PS1="[\u@\w] $ "
