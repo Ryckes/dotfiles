@@ -46,4 +46,37 @@ alias rcedit="$EDITOR $LOCAL_EXTRA &"
 export PATH="$PATH:$HOME/projects/go/bin:$HOME/bin"
 export PS1="[\u@\w] $ "
 
+
+DOWNLOADS_DIR=~/Downloads
+
+# Puts in DL the last X (3 by default) files in DOWNLOADS_DIR
+dl() {
+    mapfile -t DL < <(find "$DOWNLOADS_DIR" -maxdepth 1 -type f ! -name '.*' -exec ls -t {} + | head -n "${1:-3}")
+    printf '%s\n' "${DL[@]}"
+}
+
+dlold() {
+    mapfile -t DL < <(find "$DOWNLOADS_DIR" -maxdepth 1 -type f ! -name '.*' -exec ls -tr {} + | head -n "${1:-10}")
+    printf '%s\n' "${DL[@]}"
+}
+
+dltoday() {
+    mapfile -t DL < <(find "$DOWNLOADS_DIR" -maxdepth 1 -type f ! -name '.*' -newermt "$(date +%F)" -exec ls -t {} +)
+    printf '%s\n' "${DL[@]}"
+}
+
+lltoday() {
+    find "$DOWNLOADS_DIR" -maxdepth 1 -type f ! -name '.*' -newermt "$(date +%F)" -exec ls -lt {} +
+}
+
+
+# ---- HISTORY ----
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+# Save and reload the history after each command finishes
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+
 [ -r "$LOCAL_EXTRA" ] && . $LOCAL_EXTRA
